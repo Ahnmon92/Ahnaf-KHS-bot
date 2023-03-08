@@ -9,9 +9,11 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix = "$", intents = intents)
+#STREAMING
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity = discord.Streaming(name='Bacon puts soda in an oven then explodes', url='https://www.youtube.com/watch?v=aqBjQWut8Jw'))
 
-
-  
 #HELP COMMAND
 @bot.command(name = "cmds")
 async def cmds(ctx):
