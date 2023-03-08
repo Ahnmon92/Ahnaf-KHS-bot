@@ -1,9 +1,11 @@
+import os
 import discord, random
 from discord.ext import commands
 
 from keep_alive import keep_alive
 
-TOKEN = "MTA3OTg5NTUwODU4MTA5MzQ1Nw.GdkVQX.fdm7kFWoY6c9DVh3gRnBCsoklvSmVcQHwvGExc"
+my_secret = os.environ['TOKEN']
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -161,4 +163,4 @@ async def das(ctx):
 
 keep_alive()
 
-bot.run(TOKEN)
+bot.run(my_secret)
