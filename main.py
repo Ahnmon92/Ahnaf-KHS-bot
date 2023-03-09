@@ -21,7 +21,7 @@ async def on_ready():
 async def cmds(ctx):
   embed = discord.Embed(
     colour = discord.Colour.red(),
-    description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions **finish with '?'\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are",
+    description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions **finish with '?'**\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are",
     title = "Ahnaf Monirul Discord Bot"
     
   )
@@ -122,11 +122,29 @@ async def chad(ctx):
     await ctx.send("https://imgur.com/MQsx3tC")
   else:
     await ctx.send("https://imgur.com/zJnvdUM")
-
+#MRIGANK COMMAND
 @bot.command(name = "das")
 async def das(ctx):
   await ctx.send("mrigank built like")
   await ctx.send("https://imgur.com/k30OiY7")
+#CALCULATOR
+@bot.command(name = "cal")
+async def cal(ctx, num1: float, sign: str, num2: float):
+    if sign == "+":
+        ans = num1 + num2
+    elif sign == "-":
+        ans = num1 - num2
+    elif sign == "*":
+        ans = num1 * num2
+    elif sign == "/":
+        ans = num1 / num2
+    else:
+        await ctx.send("That is not a valid equation, please enter 2 numbers in the format:\n**[num1] [sign] [num2]**")
+        return
+    await ctx.send(f"{num1} {sign} {num2} = {ans}")
+  
+  
+
   
     
     
