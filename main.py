@@ -72,6 +72,9 @@ async def gif(ctx, category: str):
   if category == "dog":
     await ctx.channel.send(dogimg)
 
+@bot.command(name = "who")
+async def gif(ctx):
+  await ctx.send("https://imgur.com/iLDcMmi")
 #AVATAR
 @bot.command(name = "avatar")
 async def avatar(ctx, member: discord.Member = None):
