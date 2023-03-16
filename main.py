@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix = "$", intents = intents)
 #STREAMING
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity = discord.Streaming(name='Bacon puts soda in an oven then explodes', url='https://www.youtube.com/watch?v=aqBjQWut8Jw'))
+    await bot.change_presence(activity = discord.Streaming(name='Bacon puts soda in an oven then explodes', url='https://www.youtube.com/watch?v=aqBjQWut8Jw')) #Changes bot activity to streaming and shows what it's streaming
 
 #HELP COMMAND
 @bot.command(name = "cmds")
@@ -24,14 +24,15 @@ async def cmds(ctx):
     description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions **finish with '?'**\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are",
     title = "Ahnaf Monirul Discord Bot"
     
-  )
+  ) #Embeded message containing bot commands
   await ctx.send(embed = embed)
 #ROLL DICE
 @bot.command(name = "roll")
-async def roll(ctx,num):
-  for i in range(int(num)):
+async def roll(ctx,num): #Generates random number from 1 - 6
+  for i in range(int(num)): #Rolls amount dependant on user input
     d = random.randint(1, 6)
     await ctx.channel.send(f"You got... {d}!")
+#ASK COMMAND
 @bot.command(name = "ask")  
 async def ask(ctx, *words):
   st= ""
@@ -45,11 +46,11 @@ async def ask(ctx, *words):
 
 #ROCK PAPER SCISSORS
 @bot.command(name = "rps")
-async def rps(ctx, user: str):
+async def rps(ctx, user: str): #Converts user input into string
     comp_choice = ['rock', 'paper', 'scissors']
-    computer = random.choice(comp_choice)
+    computer = random.choice(comp_choice) #Takes random choice from list
     if user not in comp_choice:
-        await ctx.channel.send(f'That is not an option. Please choose from: {comp_choice}')
+        await ctx.channel.send(f'That is not an option. Please choose from: {comp_choice}') #If user option isn't it lists it sends this message
     else:
         if user == computer:
             await ctx.channel.send(f"You chose **{user}** and I chose **{computer}**, it's a draw!")
@@ -60,15 +61,15 @@ async def rps(ctx, user: str):
 
 #GIF
 @bot.command(name = "gif")    
-async def gif(ctx, category: str):
+async def gif(ctx, category: str): #Converts user input into string
   cat = ["https://imgur.com/t/cat_gifs/fraQQDl", "https://imgur.com/t/cat_gifs/aeLG2", "https://imgur.com/t/cat_gifs/pSbwM5x"]
-  catimg = random.choice(cat)
+  catimg = random.choice(cat) #Random choice from list
 
   dog = ["https://imgur.com/t/dog_gif/1EYVlub", "https://imgur.com/t/dog_gif/WbNVTM1", "https://imgur.com/t/dog_gif/J8I3Dga"]
-  dogimg = random.choice(dog)
+  dogimg = random.choice(dog) #Random choice from list
   
   if category == "cat":
-    await ctx.channel.send(catimg)
+    await ctx.channel.send(catimg) 
   if category == "dog":
     await ctx.channel.send(dogimg)
 
@@ -78,14 +79,15 @@ async def gif(ctx):
 #AVATAR
 @bot.command(name = "avatar")
 async def avatar(ctx, member: discord.Member = None):
-  if member == None:
+  if member == None: #If no member is mentioned it takes the avatar of the person who sent it
     member = ctx.author
-  embed = discord.Embed(title = member, colour = discord.Colour.red()).set_image(url = member.avatar.url)
+  embed = discord.Embed(title = member, colour = discord.Colour.red()).set_image(url = member.avatar.url) #Creates embed and assigns what each part will be, adds colour as well
   await ctx.send(embed = embed)
 #IMAGES
 @bot.command(name = "shame")
 async def image(ctx):
   await ctx.send("https://imgur.com/TMJtWdO")
+
 @bot.command(name = "img")
 async def img(ctx, name: str):
   if "luke" == name:
@@ -112,7 +114,7 @@ async def image(ctx):
 #CHAD METER
 @bot.command(name = "chad")
 async def chad(ctx):
-  number = random.randint(0, 100)
+  number = random.randint(0, 100) 
 
   await ctx.send(f"You are {number}% chad")
   if number == 100:
@@ -146,40 +148,22 @@ async def cal(ctx, num1: float, sign: str, num2: float):
         return
     await ctx.send(f"{num1} {sign} {num2} = {ans}")
   
-  
-
-  
-    
-    
-
-  
-  
-
-
-
-
-  
-
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#GUESSING GAME
+@bot.command(name = "guess")
+async def guess(ctx):
+  rand_num = random.randint(0, 100)
+  await ctx.send("The game has started, guess the correct number from 0 - 100 to win!")
+  def check(m):
+    return m.author == ctx.author and m.channel == ctx.message.channel
+  while True:
+    guess = await bot.wait_for('message', check=check)
+    if guess.content == str(rand_num):
+      await ctx.send(f"You guessed {rand_num} which is the correct number!")
+      return
+    elif guess.content >= str(rand_num):
+      await ctx.send("Lower")
+    elif guess.content <= str(rand_num):
+      await ctx.send("Higher")
 
 
 keep_alive()
