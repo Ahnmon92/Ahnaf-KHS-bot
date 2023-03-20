@@ -10,7 +10,7 @@ my_secret = os.environ['TOKEN']
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix = "$", intents = intents)
+bot = commands.Bot(command_prefix = "$", intents = intents) #Assigns bot command prefix
 #STREAMING
 @bot.event
 async def on_ready():
@@ -21,7 +21,7 @@ async def on_ready():
 async def cmds(ctx):
   embed = discord.Embed(
     colour = discord.Colour.red(),
-    description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions **finish with '?'**\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are",
+    description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions **finish with '?'**\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are\n\nguess = play a number guessing game\n\ngif [option] = sends a random gif of selected category **currently only cat and dog**",
     title = "Ahnaf Monirul Discord Bot"
     
   ) #Embeded message containing bot commands
@@ -35,11 +35,12 @@ async def roll(ctx,num): #Generates random number from 1 - 6
 #ASK COMMAND
 @bot.command(name = "ask")  
 async def ask(ctx, *words):
+  ans = ["Yes", "Ha! No", "Maybe"]
   st= ""
   for word in words:
     st+= word
   if st.endswith("?"):
-    reply = "I don't know the answer to that yet"
+    reply = random.choice(ans)
     await ctx.channel.send(reply)
   else:
     await ctx.channel.send("That is not a question")
@@ -49,6 +50,7 @@ async def ask(ctx, *words):
 async def rps(ctx, user: str): #Converts user input into string
     comp_choice = ['rock', 'paper', 'scissors']
     computer = random.choice(comp_choice) #Takes random choice from list
+    
     if user not in comp_choice:
         await ctx.channel.send(f'That is not an option. Please choose from: {comp_choice}') #If user option isn't it lists it sends this message
     else:
@@ -154,7 +156,7 @@ async def guess(ctx):
   rand_num = random.randint(0, 100)
   await ctx.send("The game has started, guess the correct number from 0 - 100 to win!")
   def check(m):
-    return m.author == ctx.author and m.channel == ctx.message.channel
+    return m.author == ctx.author and m.channel == ctx.message.channel #Checks if message is sent by same person who called command
   while True:
     guess = await bot.wait_for('message', check=check)
     if guess.content == str(rand_num):
