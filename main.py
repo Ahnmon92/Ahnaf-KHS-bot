@@ -21,7 +21,7 @@ async def on_ready():
 async def cmds(ctx):
   embed = discord.Embed(
     colour = discord.Colour.red(),
-    description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions **finish with '?'**\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are\n\nguess = play a number guessing game\n\ngif [option] = sends a random gif of selected category **currently only cat and dog**",
+    description = "Prefix = $\nCommands:\n\nrps [option] = rock paper scissors game\n\nroll [number] = roll dice [number of times]\n\nask = ask bot questions\n\nimg [name] = Send's a picture of the select person\n\nrandimg = sends random image bot has\n\n das = OG command for the people\n\nchad = chad meter, tells you how chad you are\n\nguess = play a number guessing game\n\ngif [option] = sends a random gif of selected category **currently only cat and dog**",
     title = "Ahnaf Monirul Discord Bot"
     
   ) #Embeded message containing bot commands
@@ -35,15 +35,15 @@ async def roll(ctx,num): #Generates random number from 1 - 6
 #ASK COMMAND
 @bot.command(name = "ask")  
 async def ask(ctx, *words):
-  ans = ["Yes", "Ha! No", "Maybe"]
+  ans = ["Yes", "No", "Maybe"]
   st= ""
   for word in words:
     st+= word
-  if st.endswith("?"):
+  if st.startswith("is") or st.startswith("am") or st.startswith("will"): #Question has to start with "is", "am" or "will"
     reply = random.choice(ans)
     await ctx.channel.send(reply)
   else:
-    await ctx.channel.send("That is not a question")
+    await ctx.channel.send("That's not a question I can answer yet")    
 
 #ROCK PAPER SCISSORS
 @bot.command(name = "rps")
