@@ -44,27 +44,33 @@ async def ask(ctx, *words):
     await ctx.channel.send(reply)
   else:
     await ctx.channel.send("That's not a question I can answer yet")    
-
 #ROCK PAPER SCISSORS
 @bot.command(name = "rps")
-async def rps(ctx, user: str): #Converts user input into string
+async def rps(ctx): #Converts user input into string
     comp_choice = ['rock', 'paper', 'scissors']
     computer = random.choice(comp_choice) #Takes random choice from list
+    await ctx.send("Pick an option between Rock, Paper and Scissors")
+  
+    def check(m):
+      return m.author == ctx.author and m.channel == ctx.message.channel #Checks if message is sent by same person who called command
     
-    if user not in comp_choice:
-        await ctx.channel.send(f'That is not an option. Please choose from: {comp_choice}') #If user option isn't it lists it sends this message
-    else:
-        if user == computer:
-            await ctx.channel.send(f"You chose **{user}** and I chose **{computer}**, it's a draw!")
-        elif (user == 'rock' and computer == 'scissors') or (user == 'paper' and computer == 'rock') or (user == 'scissors' and computer == 'paper'):
-            await ctx.channel.send(f"You chose **{user}** and I chose **{computer}**, You win!")
-        else:
-            await ctx.channel.send(f"You chose **{user}** and I chose **{computer}**, I win!")
+    user = await bot.wait_for("message", check=check)
 
+    if user.content == computer:
+      await ctx.channel.send(f"I chose **{computer}**, it's a draw!")
+    
+    elif (user.content == 'rock' and computer == 'scissors') or (user.content == 'paper' and computer == 'rock') or (user.content == 'scissors' and computer == 'paper'):
+      await ctx.channel.send(f"I chose **{computer}**, You win!")
+        
+    elif (user.content == 'rock' and computer == 'paper') or (user.content == 'paper' and computer == 'scissors') or (user.content == 'scissors' and computer == 'rock'):
+      await ctx.send(f"I chose **{computer}**, I win")
+          
+    else:
+      await ctx.channel.send(f"That is not an option. Please choose from: {comp_choice}") #If user option isn't it lists it sends this message    
 #GIF
 @bot.command(name = "gif")    
 async def gif(ctx, category: str): #Converts user input into string
-  cat = ["https://imgur.com/t/cat_gifs/fraQQDl", "https://imgur.com/t/cat_gifs/aeLG2", "https://imgur.com/t/cat_gifs/pSbwM5x"]
+  cat = ["https://imgur.com/t/cat_gifs/fraQQDl", "https://imgur.com/t/cat_gifs/pSbwM5x"]
   catimg = random.choice(cat) #Random choice from list
 
   dog = ["https://imgur.com/t/dog_gif/1EYVlub", "https://imgur.com/t/dog_gif/WbNVTM1", "https://imgur.com/t/dog_gif/J8I3Dga"]
@@ -159,13 +165,20 @@ async def guess(ctx):
     return m.author == ctx.author and m.channel == ctx.message.channel #Checks if message is sent by same person who called command
   while True:
     guess = await bot.wait_for('message', check=check)
-    if guess.content == str(rand_num):
+
+    if not guess.content.isdigit(): #If input isn't a a number, ask question
+      await ctx.send("That is not a number, please **enter a number**")
+      continue
+    
+    guess2 = int(guess.content)
+    if guess2 == rand_num:
       await ctx.send(f"You guessed {rand_num} which is the correct number!")
       return
-    elif guess.content >= str(rand_num):
+    elif guess2 >= rand_num:
       await ctx.send("Lower")
-    elif guess.content <= str(rand_num):
+    elif guess2 <= rand_num:
       await ctx.send("Higher")
+
 
 
 keep_alive()
